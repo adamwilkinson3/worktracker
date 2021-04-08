@@ -1,0 +1,170 @@
+function updateActivities() {
+  ss2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Members');
+  ss3 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Activities');
+  ssRecover = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Recover');
+  totalActiveMembers = ss2.getLastRow() - 2;
+  
+  
+  for (y = 2; y <= 20; y++) {
+    for (x = 2; x <= 8; x++) {
+      if (ss3.getRange(y , x).getValue() == ssRecover.getRange(y + 25, x + 1).getValue()) {    
+        continue;
+      } else if (ss3.getRange(y , x).isBlank() != 1 && (ssRecover.getRange(y + 25, x + 1).isBlank() || ssRecover.getRange(y + 25, x + 1).getValue() == 'xx')) {
+          for (y2 = 3; y2 <= totalActiveMembers + 2; y2++) {        //update weight
+            if (ss2.getRange(y2, 2).getValue() == ss3.getRange(y, x).getValue()) {
+              if (y <= 3) {                //snack shop
+                ss2.getRange(y2, 3).setValue(ss2.getRange(y2, 3).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+                continue;
+              } else if (y <= 5) {         //base Tour
+                ss2.getRange(y2, 4).setValue(ss2.getRange(y2, 4).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+                continue;
+              } else if (y <= 7) {          //squadron Tour
+                ss2.getRange(y2, 5).setValue(ss2.getRange(y2, 5).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+                continue;
+              } else if (y <= 13) {         //PT
+                ss2.getRange(y2, 6).setValue(ss2.getRange(y2, 6).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+              } else {                     //CQ
+                ss2.getRange(y2, 7).setValue(ss2.getRange(y2, 7).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 2);
+              }
+            }
+          }
+      } else if (ss3.getRange(y , x).isBlank() || ss3.getRange(y , x).getValue() == 'xx' && ssRecover.getRange(y + 25, x + 1).isBlank() != 1) {
+        for (y2 = 3; y2 <= totalActiveMembers + 2; y2++) {        //update weight
+            if (ss2.getRange(y2, 2).getValue() == ssRecover.getRange(y + 25, x + 1).getValue()) {
+              if (y <= 3) {                //snack shop
+                ss2.getRange(y2, 3).setValue(ss2.getRange(y2, 3).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+                continue;
+              } else if (y <= 5) {         //base Tour
+                ss2.getRange(y2, 4).setValue(ss2.getRange(y2, 4).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+                continue;
+              } else if (y <= 7) {          //squadron Tour
+                ss2.getRange(y2, 5).setValue(ss2.getRange(y2, 5).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+                continue;
+              } else if (y <= 13) {         //PT
+                ss2.getRange(y2, 6).setValue(ss2.getRange(y2, 6).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+              } else {                     //CQ
+                ss2.getRange(y2, 7).setValue(ss2.getRange(y2, 7).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 2);
+              }
+            }
+          }
+      } else if (ssRecover.getRange(y + 25, x + 1).getValue() != ss3.getRange(y , x).getValue()) {
+        
+        for (y2 = 3; y2 <= totalActiveMembers + 2; y2++) {        //update weight
+            if (ss2.getRange(y2, 2).getValue() == ss3.getRange(y, x).getValue()) {
+              if (y <= 3) {                //snack shop
+                ss2.getRange(y2, 3).setValue(ss2.getRange(y2, 3).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+                continue;
+              } else if (y <= 5) {         //base Tour
+                ss2.getRange(y2, 4).setValue(ss2.getRange(y2, 4).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+                continue;
+              } else if (y <= 7) {          //squadron Tour
+                ss2.getRange(y2, 5).setValue(ss2.getRange(y2, 5).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+                continue;
+              } else if (y <= 13) {         //PT
+                ss2.getRange(y2, 6).setValue(ss2.getRange(y2, 6).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 1);
+              } else {                     //CQ
+                ss2.getRange(y2, 7).setValue(ss2.getRange(y2, 7).getValue() + 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() + 2);
+              }
+            }
+          }
+        
+        
+        for (y2 = 3; y2 <= totalActiveMembers + 2; y2++) {        //update weight
+            if (ss2.getRange(y2, 2).getValue() == ssRecover.getRange(y + 25, x + 1).getValue()) {
+              if (y <= 3) {                //snack shop
+                ss2.getRange(y2, 3).setValue(ss2.getRange(y2, 3).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+                continue;
+              } else if (y <= 5) {         //base Tour
+                ss2.getRange(y2, 4).setValue(ss2.getRange(y2, 4).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+                continue;
+              } else if (y <= 7) {          //squadron Tour
+                ss2.getRange(y2, 5).setValue(ss2.getRange(y2, 5).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+                continue;
+              } else if (y <= 13) {         //PT
+                ss2.getRange(y2, 6).setValue(ss2.getRange(y2, 6).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 1);
+              } else {                     //CQ
+                ss2.getRange(y2, 7).setValue(ss2.getRange(y2, 7).getValue() - 1);
+                ss2.getRange(y2, 8).setValue(ss2.getRange(y2, 8).getValue() - 2);
+              }
+            }
+          }
+        
+        
+        
+        
+        
+        
+      }
+    }
+  }
+  
+  //Save in Recovery
+  
+  var source_range = ss3.getRange(1, 1, 21, 8);
+  var target_range = ssRecover.getRange(26, 2, 21, 8);
+  
+  source_range.copyTo(target_range);
+  
+  //Set Date
+    var currentDate = new Date();
+  
+  var month = currentDate.getMonth();
+  var day = currentDate.getDate();
+  
+  if (month > 5) {
+    if (month == 6) {
+      monthText = 'JUL';
+    }
+    if (month == 7) {
+      monthText = 'AUG';
+    }
+    if (month == 8) {
+      monthText = 'SEP';
+    }
+    if (month == 9) {
+      monthText = 'OCT';
+    }
+    if (month == 10) {
+      monthText = 'NOV';
+    }
+    if (month == 11) {
+      monthText = 'DEC';
+    }
+    
+  } else if (month == 0) {
+    monthText = 'JAN';
+  } else if (month == 1) {
+    monthText = 'FEB';
+  } else if (month == 2) {
+    monthText = 'MAR';
+  } else if (month == 3) {
+    monthText = 'APR';
+  } else if (month == 4) {
+    monthText = 'MAY'
+  } else if (month == 5) {
+    monthText = 'JUN';
+  }
+  
+  ss3.getRange(1, 1).setValue(day + ' ' + monthText);
+  
+  
+}

@@ -1,0 +1,12 @@
+function save() {
+  ssRecover = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Recover');
+  ss3 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Activities');
+
+  var source_range = ss3.getRange(1, 1, 21, 8);
+  var target_range = ssRecover.getRange(3, 2, 23, 8);
+  
+  source_range.copyTo(target_range);
+    
+
+  
+}

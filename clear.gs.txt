@@ -1,0 +1,24 @@
+function clear() {
+  ss3 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Activities');
+  ss2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Members');
+  ssRecover = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Recover');
+  lastRow = ss2.getLastRow();
+  
+  for (y = 2; y <= 21; y++) {
+    for (x = 2; x <= 8; x++) {
+      if (ss3.getRange(y , x).getValue() != 'xx') {
+        ss3.getRange(y, x).clearContent();
+      }
+    }
+  }
+  
+  //Clear 'Update'
+  var source_range = ss3.getRange(1, 1, 21, 8);
+  var target_range = ssRecover.getRange(26, 2, 21, 8);
+  
+  source_range.copyTo(target_range);
+  
+  for (y = 0; y <= lastRow - 3; y++) {    //sets Activity Weight to zero
+    ss2.getRange(y + 3, 8).setValue(0);
+  }
+}

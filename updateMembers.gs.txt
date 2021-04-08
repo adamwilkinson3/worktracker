@@ -1,0 +1,154 @@
+function updateMembers() {
+  ss2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Members');
+  ssRecover = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Recover');
+  ssHistory = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('History');
+  ropeArray = [];
+  finalRopeArray = [];
+  finalPosition = 0;
+  lastRow = ss2.getLastRow();
+  finalNameArray = [];
+
+  
+  //Removes the rows of deleted members
+  for (y = 3; y <= lastRow; y++) {
+    if (ss2.getRange(y, 2).isBlank()){
+      ss2.deleteRow(y);
+      lastRow--;
+      y--;
+    }
+  }
+  
+  //Initialize finalRopeArray
+  for (y = 0 ; y <= lastRow - 3; y++) {
+    finalRopeArray [y] = new Array();
+    for (z = 1; z <= 7; z++) {
+      finalRopeArray [y][z] = 0; 
+    }
+  }
+  
+  //Fills values for new members
+  for (y = 3; y <= lastRow; y++) {
+    if (ss2.getRange(y, 2).getBackground() == '#ffffff') {
+      ss2.getRange(y, 2).setBackground('purple');
+      ss2.getRange(y, 3, 1, 8).setValue(0);
+    }
+  }
+  
+  //Finds total number of ropes per color (not currently used)
+  redNum = 0;
+  yellowNum = 0;
+  greenNum = 0;
+  for (y = 3; y <= lastRow; y++) {
+    if (ropeArray[y - 3] == 1) {
+      greenNum++;
+    } else if (ropeArray[y - 3] == 2) {
+      yellowNum++;
+    } else if (ropeArray[y - 3] == 3) {
+      redNum++;
+    }
+  }
+  
+  //Rearranges members dependant on rope
+  for (y = 3; y <= lastRow; y++) {
+    ropeArray[y - 3] = ss2.getRange(y, 9).getValue();
+  }
+  for (y = 3; y <= lastRow; y++) {
+    if (ropeArray[y - 3] == 3) {
+      for (info = 0; info <= 7; info++) {
+        finalRopeArray[finalPosition][info] = ss2.getRange(y, info + 2).getValue();
+      }
+      finalPosition++;
+    }
+  }
+  for (y = 3; y <= lastRow; y++) {
+    if (ropeArray[y - 3] == 2) {
+      for (info = 0; info <= 7; info++) {
+        finalRopeArray[finalPosition][info] = ss2.getRange(y, info + 2).getValue();
+      }
+      finalPosition++;
+    }
+  }
+  for (y = 3; y <= lastRow; y++) {
+    if (ropeArray[y - 3] == 1) {
+      for (info = 0; info <= 7; info++) {
+        finalRopeArray[finalPosition][info] = ss2.getRange(y, info + 2).getValue();
+      }
+      finalPosition++;
+    }
+  }
+  for (y = 3; y <= lastRow; y++) {
+    if (ropeArray[y - 3] == 0) {
+      for (info = 0; info <= 7; info++) {
+        finalRopeArray[finalPosition][info] = ss2.getRange(y, info + 2).getValue();
+      }
+      finalPosition++;
+    }
+  }
+  for (y = 3; y <= lastRow; y++) {
+    if (ropeArray[y - 3] != 0 && ropeArray[y - 3] != 1 && ropeArray[y - 3] != 2 && ropeArray[y - 3] != 3) {
+      for (info = 0; info <= 7; info++) {
+        finalRopeArray[finalPosition][info] = ss2.getRange(y, info + 2).getValue();
+      }
+      finalPosition++;
+    }
+  }
+  for(y = 0; y <= lastRow - 3; y++) {
+    for (x = 0; x <= 7; x++) {
+    ss2.getRange(y + 3, x + 2).setValue(finalRopeArray[y][x]);
+    }
+  }
+  
+  //Changes background color to match rope
+  for (y = 3; y <= lastRow; y++) {       
+    if (finalRopeArray[y - 3][7] == 0) {
+      ss2.getRange(y, 2).setBackground('purple');
+      continue;
+    } else if (finalRopeArray[y - 3][7] == 1) {
+      ss2.getRange(y, 2).setBackground('green');
+      continue;
+    } else if (finalRopeArray[y - 3][7] == 2) {
+      ss2.getRange(y, 2).setBackground('yellow');
+      continue;
+    } else if (finalRopeArray[y - 3][7] == 3) {
+      ss2.getRange(y, 2).setBackground('red');
+    }
+  }
+
+  //Adds deleted members to recovery (max 10)
+  previousMemberCount = ssHistory.getLastRow() - 4;
+  historyArray = [];
+  
+  for (y = 0; y <= previousMemberCount; y++){
+    historyArray [y] = ssHistory.getRange(y + 4, 1).getValue();
+  }
+  for (y2 = 0; y2 <= previousMemberCount; y2++) {
+    alert = 1;
+    for (y = 0; y <= lastRow - 3; y++) {
+      if (ssHistory.getRange(y2 + 4, 1).getValue() == ss2.getRange(y + 3, 2).getValue()) {
+        y = lastRow;
+        alert = 0;
+      }
+    }
+    if (alert) {
+      ssRecover.deleteRow(59);
+      ssRecover.insertRowsAfter(49, 1);
+      ssHistory.getRange(y2 + 4, 1, 1, 8).copyTo(ssRecover.getRange(50, 2, 1, 8));
+    }
+  }
+  
+  
+  //Save
+  
+  if (previousMemberCount < 0) {
+    previousMemberCount = 0;
+  }
+  if (lastRow < 3) {
+    lastRow = 3;
+  }
+  ssHistory.getRange(4, 1, previousMemberCount + 1, 8).clear();
+  var source_range = ss2.getRange(3, 2, lastRow - 2, 8);
+  var target_range = ssHistory.getRange(4, 1, lastRow - 2, 8);
+  
+  source_range.copyTo(target_range);
+  
+}
